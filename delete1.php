@@ -1,20 +1,36 @@
+<meta http-equiv="refresh" content="1;url=index.php" charset="UTF-8"/>
 <?php
-/**
- * Created by PhpStorm.
- * User: user
- * Date: 2016/9/2
- * Time: 14:36
- */
-
-header('content-type:text/html;charset=utf-8');
-
 $id = $_GET['id'];
-echo $id;
-require_once "function.php";
-$DB = connectDB();
+//echo $id;
+if(is_numeric($id)) {        //判断id是否为数字
 
-$sql = "DELETE FROM lostItems WHERE id = $id";
-$result = $DB -> exec($sql);
 
-$url = "index.php";
-header("Refresh:4;url={$url}");
+    $data = '{"ID":' . $id . '}';
+
+    $url = 'http://218.192.166.167/api/protype.php';
+
+    $post_data = array(
+        'table' => 'lostItems',
+        'method' => "delete",
+        'data' => $data,
+    );
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_HEADER, 0);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+    $return = curl_exec($ch);
+    curl_close($ch);
+    $array = json_decode($return, true);
+    if ($array['status'] == 1) {
+        echo '删除成功';
+    } else {
+        echo '删除失败';
+    }
+
+
+}else{
+    echo "删除失败";
+}

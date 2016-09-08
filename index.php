@@ -1,71 +1,126 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: user
- * Date: 2016/9/2
- * Time: 12:24
- */
 header('content-type:text/html;charset=utf-8');
+/**
+function($id){
+    $data = '{"ID":' . $id . '}';
 
-require_once "function.php";
+    $url = 'http://218.192.166.167/api/protype.php';
+
+    $post_data = array(
+        'table' => 'lostItems',
+        'method' => "delete",
+        'data' => $data,
+    );
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_HEADER, 0);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+    $return = curl_exec($ch);
+    curl_close($ch);
+    $array = json_decode($return, true);
+    if ($array['status'] == 1) {
+        echo '删除成功';
+    } else {
+        echo '删除失败';
+    }
+}
+////////////////////////////////////////////////////////////////////////////////
+
+**/
 
 echo "<h1>lostItems</h1>";
-$num = rows('lostItems');
-$i = 0;
-if($num != 0) {
-    do {
 
-        @$q = get_data("lostItems", "", "ID", "title", "publisher", "account", "thumbnail",
-            "originalPicture", "campus", "location", "type", "phone", "otherContact", "date", "details");
-        $id = $q['back1'];
-        echo 'title：' . $q['back2'], '<br/>';
-        echo 'publisher：' . $q['back3'], '<br/>';
-        echo 'account：' . $q['back4'], '<br/>';
-        echo 'thumbnail：' . $q['back5'], '<br/>';
-        echo 'originalPicture：' . $q['back6'], '<br/>';
-        echo 'campus：' . $q['back7'], '<br/>';
-        echo 'location：' . $q['back8'], '<br/>';
-        echo 'type：' . $q['back9'], '<br/>';
-        echo 'phone：' . $q['back10'], '<br/>';
-        echo 'otherContact：' . $q['back11'], '<br/>';
-        echo 'date：' . $q['back12'], '<br/>';
-        echo 'details：' . $q['back13'], '<br/>';
-        echo "<a href='delete1.php?id=$id'>删除此条</a>";
-        echo '<hr/>';
-        $i++;
-    } while ($i < $num);
-}else{
-    echo "<h1>无</h1>";
+
+
+ $data = '';
+ $url = 'http://218.192.166.167/api/protype.php';
+
+ $post_data = array(
+     'table' => 'lostItems',
+     'method' => "get",
+     'data' => $data,
+ );
+
+ $ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $url);
+ curl_setopt($ch, CURLOPT_POST, 1);
+ curl_setopt($ch, CURLOPT_HEADER, 0);
+ curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+ curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+ $return = curl_exec($ch);
+ curl_close($ch);
+ $array = json_decode($return, true);
+
+
+
+foreach ($array as $q){
+    echo 'title：' . $q['title'], '<br/>';
+    echo 'publisher：' . $q['publisher'], '<br/>';
+    echo 'account：' . $q['account'], '<br/>';
+    echo 'thumbnail：' . $q['thumbnail'], '<br/>';
+    echo 'originalPicture：' . $q['originalPicture'], '<br/>';
+    echo 'campus：' . $q['campus'], '<br/>';
+    echo 'location：' . $q['location'], '<br/>';
+    echo 'type：' . $q['type'], '<br/>';
+    echo 'phone：' . $q['phone'], '<br/>';
+    echo 'otherContact：' . $q['otherContact'], '<br/>';
+    echo 'date：' . $q['date'], '<br/>';
+    echo 'details：' . $q['details'], '<br/>';
+    $id = $q['ID'];
+    echo "<a href='delete1.php?id=$id'>删除此条</a>";
+    echo '<hr/>';
+    
+    
+    
+//    var_dump($q['ID']);
 }
 
 
 
-
+//////////////////////////////////////////////////////////////////////////
 echo "<h1>pickItems</h1>";
-$num = rows('pickItems');
-$i = 0;
-if($num != 0) {
-    do {
 
-        @$q = get_data("pickItems", "", "ID", "title", "publisher", "account", "thumbnail",
-            "originalPicture", "campus", "location", "type", "phone", "otherContact", "date", "details");
-        $id = $q['back1'];
-        echo 'title：' . $q['back2'], '<br/>';
-        echo 'publisher：' . $q['back3'], '<br/>';
-        echo 'account：' . $q['back4'], '<br/>';
-        echo 'thumbnail：' . $q['back5'], '<br/>';
-        echo 'originalPicture：' . $q['back6'], '<br/>';
-        echo 'campus：' . $q['back7'], '<br/>';
-        echo 'location：' . $q['back8'], '<br/>';
-        echo 'type：' . $q['back9'], '<br/>';
-        echo 'phone：' . $q['back10'], '<br/>';
-        echo 'otherContact：' . $q['back11'], '<br/>';
-        echo 'date：' . $q['back12'], '<br/>';
-        echo 'details：' . $q['back13'], '<br/>';
-        echo "<a href='delete2.php?id=$id'>删除此条</a>";
-        echo '<hr/>';
-        $i++;
-    } while ($i < $num);
-}else{
-    echo "<h1>无</h1>";
+
+
+$data = '';
+$url = 'http://218.192.166.167/api/protype.php';
+
+$post_data = array(
+    'table' => 'pickItems',
+    'method' => "get",
+    'data' => $data,
+);
+
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_POST, 1);
+curl_setopt($ch, CURLOPT_HEADER, 0);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+$return = curl_exec($ch);
+curl_close($ch);
+$array = json_decode($return, true);
+
+
+
+foreach ($array as $q){
+    echo 'title：' . $q['title'], '<br/>';
+    echo 'publisher：' . $q['publisher'], '<br/>';
+    echo 'account：' . $q['account'], '<br/>';
+    echo 'thumbnail：' . $q['thumbnail'], '<br/>';
+    echo 'originalPicture：' . $q['originalPicture'], '<br/>';
+    echo 'campus：' . $q['campus'], '<br/>';
+    echo 'location：' . $q['location'], '<br/>';
+    echo 'type：' . $q['type'], '<br/>';
+    echo 'phone：' . $q['phone'], '<br/>';
+    echo 'otherContact：' . $q['otherContact'], '<br/>';
+    echo 'date：' . $q['date'], '<br/>';
+    echo 'details：' . $q['details'], '<br/>';
+    $id = $q['ID'];
+    echo "<a href='delete2.php?id=$id'>删除此条</a>";
+    echo '<hr/>';
 }
+
